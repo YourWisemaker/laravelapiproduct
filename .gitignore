@@ -1,0 +1,46 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+
+# Ignore SQLite database files
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# Ignore composer files
+composer.phar
+
+# Ignore Mac DS_Store files
+.DS_Store
+
+# Ignore PHPStorm project files
+/.phpstorm.meta.php
+/_ide_helper.php
+/_ide_helper_models.php
+
+# Ignore build files
+/public/css
+/public/js
+/public/mix-manifest.json
+
+# Ignore logs
+/storage/logs/*
+!storage/logs/.gitignore
+
+# Ignore cache
+/bootstrap/cache/*
+!bootstrap/cache/.gitignore
