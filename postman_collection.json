@@ -1,0 +1,257 @@
+{
+  "info": {
+    "name": "Product Rental API",
+    "description": "API for managing product rentals with regional pricing",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Products",
+      "description": "Endpoints for retrieving product information",
+      "item": [
+        {
+          "name": "List all products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"]
+            },
+            "description": "Get a paginated list of all products"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter products by region",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products?region_id={{region_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"],
+              "query": [
+                {
+                  "key": "region_id",
+                  "value": "{{region_id}}"
+                }
+              ]
+            },
+            "description": "Filter products by region ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter products by rental period",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products?rental_period_id={{rental_period_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"],
+              "query": [
+                {
+                  "key": "rental_period_id",
+                  "value": "{{rental_period_id}}"
+                }
+              ]
+            },
+            "description": "Filter products by rental period ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter products by region and rental period",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products?region_id={{region_id}}&rental_period_id={{rental_period_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products"],
+              "query": [
+                {
+                  "key": "region_id",
+                  "value": "{{region_id}}"
+                },
+                {
+                  "key": "rental_period_id",
+                  "value": "{{rental_period_id}}"
+                }
+              ]
+            },
+            "description": "Filter products by both region ID and rental period ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get product details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}"]
+            },
+            "description": "Get detailed information about a specific product"
+          },
+          "response": []
+        },
+        {
+          "name": "Get product details with region",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}?region_id={{region_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}"],
+              "query": [
+                {
+                  "key": "region_id",
+                  "value": "{{region_id}}"
+                }
+              ]
+            },
+            "description": "Get detailed information about a specific product for a specific region"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product Pricing",
+      "description": "Endpoints for retrieving product pricing information",
+      "item": [
+        {
+          "name": "Get product pricing",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}/pricing",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}", "pricing"]
+            },
+            "description": "Get all pricing options for a specific product"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter product pricing by region",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}/pricing?region_id={{region_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}", "pricing"],
+              "query": [
+                {
+                  "key": "region_id",
+                  "value": "{{region_id}}"
+                }
+              ]
+            },
+            "description": "Get pricing options for a specific product filtered by region"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter product pricing by rental period",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}/pricing?rental_period_id={{rental_period_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}", "pricing"],
+              "query": [
+                {
+                  "key": "rental_period_id",
+                  "value": "{{rental_period_id}}"
+                }
+              ]
+            },
+            "description": "Get pricing options for a specific product filtered by rental period"
+          },
+          "response": []
+        },
+        {
+          "name": "Filter product pricing by region and rental period",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/products/{{product_id}}/pricing?region_id={{region_id}}&rental_period_id={{rental_period_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "products", "{{product_id}}", "pricing"],
+              "query": [
+                {
+                  "key": "region_id",
+                  "value": "{{region_id}}"
+                },
+                {
+                  "key": "rental_period_id",
+                  "value": "{{rental_period_id}}"
+                }
+              ]
+            },
+            "description": "Get pricing options for a specific product filtered by both region and rental period"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reference Data",
+      "description": "Endpoints for retrieving reference data",
+      "item": [
+        {
+          "name": "Get all regions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/regions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "regions"]
+            },
+            "description": "Get a list of all active regions/countries"
+          },
+          "response": []
+        },
+        {
+          "name": "Get all rental periods",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/rental-periods",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "rental-periods"]
+            },
+            "description": "Get a list of all active rental periods"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "product_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "region_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "rental_period_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}
