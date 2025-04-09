@@ -722,7 +722,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "https://api.yourwisemaker.com",
+      "value": "https://laravelbackend.yourwisemaker.com",
       "type": "string"
     },
     {
