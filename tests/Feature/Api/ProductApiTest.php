@@ -125,7 +125,7 @@ class ProductApiTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'product' => [
+            'data' => [
                 'id',
                 'name',
                 'description',
@@ -145,7 +145,7 @@ class ProductApiTest extends TestCase
         ]);
         
         // Assert the product ID matches
-        $this->assertEquals($product->id, $response->json('product.id'));
+        $this->assertEquals($product->id, $response->json('data.id'));
     }
 
     /**
