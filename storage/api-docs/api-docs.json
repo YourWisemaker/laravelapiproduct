@@ -10,14 +10,208 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/pricing": {
+            "post": {
+                "tags": [
+                    "Pricing"
+                ],
+                "summary": "Create new product pricing",
+                "description": "Creates a new pricing for a product-region-period combination",
+                "operationId": "9954f7302f23d0546b030d8b3b5aa55b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "region_id",
+                                    "rental_period_id",
+                                    "price"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "region_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "rental_period_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 99.99
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product pricing created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product pricing created successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error or pricing already exists"
+                    }
+                }
+            }
+        },
+        "/api/v1/pricing/{pricing}": {
+            "put": {
+                "tags": [
+                    "Pricing"
+                ],
+                "summary": "Update product pricing",
+                "description": "Updates the price and active status of an existing pricing",
+                "operationId": "93066eb0cfc41a7ad379c93da14820b7",
+                "parameters": [
+                    {
+                        "name": "pricing",
+                        "in": "path",
+                        "description": "Pricing ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 129.99
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product pricing updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product pricing updated successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pricing not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pricing"
+                ],
+                "summary": "Delete product pricing",
+                "description": "Deletes an existing product pricing",
+                "operationId": "0592df81b9a27303740d04260d22e121",
+                "parameters": [
+                    {
+                        "name": "pricing",
+                        "in": "path",
+                        "description": "Pricing ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product pricing deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product pricing deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pricing not found"
+                    }
+                }
+            }
+        },
         "/api/v1/products": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Get list of products",
-                "description": "Returns paginated list of products with optional filtering by region and rental period",
-                "operationId": "getProducts",
+                "description": "Returns paginated list of products with optional filtering",
+                "operationId": "072fd15d3be55577bb08c19d19f1e75c",
                 "parameters": [
                     {
                         "name": "region_id",
@@ -45,9 +239,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "current_page": {
-                                            "type": "integer",
-                                            "example": 1
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
                                         "data": {
                                             "type": "array",
@@ -79,44 +273,78 @@
                                                 },
                                                 "type": "object"
                                             }
-                                        },
-                                        "first_page_url": {
-                                            "type": "string"
-                                        },
-                                        "from": {
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create new product",
+                "description": "Creates a new product with attributes",
+                "operationId": "eda0d526a50c0273ae224eb766440226",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "sku"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "New Product"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Detailed product description"
+                                    },
+                                    "sku": {
+                                        "type": "string",
+                                        "example": "NP-12345"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "attribute_values": {
+                                        "type": "array",
+                                        "items": {
                                             "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "last_page": {
-                                            "type": "integer"
-                                        },
-                                        "last_page_url": {
-                                            "type": "string"
-                                        },
-                                        "links": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object"
-                                            }
-                                        },
-                                        "next_page_url": {
+                                        "message": {
                                             "type": "string",
-                                            "nullable": true
+                                            "example": "Product created successfully"
                                         },
-                                        "path": {
-                                            "type": "string"
-                                        },
-                                        "per_page": {
-                                            "type": "integer"
-                                        },
-                                        "prev_page_url": {
-                                            "type": "string",
-                                            "nullable": true
-                                        },
-                                        "to": {
-                                            "type": "integer"
-                                        },
-                                        "total": {
-                                            "type": "integer"
+                                        "data": {
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -125,7 +353,7 @@
                         }
                     },
                     "422": {
-                        "description": "Validation Error"
+                        "description": "Validation error"
                     }
                 }
             }
@@ -137,7 +365,7 @@
                 ],
                 "summary": "Get product details",
                 "description": "Returns detailed information about a specific product",
-                "operationId": "getProductDetail",
+                "operationId": "0cfb1994ca6b44b2da2f0a0347291a8c",
                 "parameters": [
                     {
                         "name": "product",
@@ -165,7 +393,11 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "product": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
                                             "properties": {
                                                 "id": {
                                                     "type": "integer"
@@ -181,39 +413,6 @@
                                                 },
                                                 "is_active": {
                                                     "type": "boolean"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "region": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                },
-                                                "code": {
-                                                    "type": "string"
-                                                },
-                                                "is_active": {
-                                                    "type": "boolean"
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time"
                                                 }
                                             },
                                             "type": "object"
@@ -226,9 +425,133 @@
                     },
                     "404": {
                         "description": "Product not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update product",
+                "description": "Updates an existing product and its attributes",
+                "operationId": "b328605fe6dfe6b9c13e837a76dfac3a",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "sku": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "attribute_values": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
                     },
                     "422": {
-                        "description": "Validation Error"
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete product",
+                "description": "Deletes a product if it has no associated pricing",
+                "operationId": "d6e5ebe777077ea7d87e2a511a4b48f8",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    },
+                    "422": {
+                        "description": "Cannot delete product with pricing"
                     }
                 }
             }
@@ -236,11 +559,11 @@
         "/api/v1/products/{product}/pricing": {
             "get": {
                 "tags": [
-                    "Product Pricing"
+                    "Products"
                 ],
                 "summary": "Get product pricing",
                 "description": "Returns pricing information for a specific product with optional filtering",
-                "operationId": "getProductPricing",
+                "operationId": "bb0cd015eef13aba85953f08966c1749",
                 "parameters": [
                     {
                         "name": "product",
@@ -278,7 +601,8 @@
                                 "schema": {
                                     "properties": {
                                         "success": {
-                                            "type": "boolean"
+                                            "type": "boolean",
+                                            "example": true
                                         },
                                         "data": {
                                             "type": "array",
@@ -288,31 +612,9 @@
                                                         "type": "integer"
                                                     },
                                                     "region": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer"
-                                                            },
-                                                            "name": {
-                                                                "type": "string"
-                                                            },
-                                                            "code": {
-                                                                "type": "string"
-                                                            }
-                                                        },
                                                         "type": "object"
                                                     },
                                                     "rental_period": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer"
-                                                            },
-                                                            "name": {
-                                                                "type": "string"
-                                                            },
-                                                            "days": {
-                                                                "type": "integer"
-                                                            }
-                                                        },
                                                         "type": "object"
                                                     },
                                                     "price": {
@@ -330,87 +632,293 @@
                     },
                     "404": {
                         "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/rentals": {
+            "get": {
+                "tags": [
+                    "Rentals"
+                ],
+                "summary": "Get list of rentals",
+                "description": "Returns paginated list of rental transactions with optional filtering",
+                "operationId": "3e1e61909e3d63891b376d33996755e8",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "query",
+                        "description": "Filter by product ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "description": "Filter by region ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status (confirmed, cancelled, completed)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "confirmed",
+                                "cancelled",
+                                "completed"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Rentals"
+                ],
+                "summary": "Create new rental",
+                "description": "Creates a new rental transaction with customer information",
+                "operationId": "19e770ee112b4e0029f66c45f23f53e7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "region_id",
+                                    "rental_period_id",
+                                    "customer_name",
+                                    "customer_email",
+                                    "customer_address",
+                                    "start_date"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "region_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "rental_period_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "customer_name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "customer_email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "customer_address": {
+                                        "type": "string",
+                                        "example": "123 Main St, City, Country"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-04-15"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "example": "Please deliver in the morning",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rental created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product rental created successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Validation Error"
+                        "description": "Validation error or product not available for rental"
                     }
                 }
             }
         },
-        "/api/v1/regions": {
+        "/api/v1/rentals/{rental}": {
             "get": {
                 "tags": [
-                    "Reference Data"
+                    "Rentals"
                 ],
-                "summary": "Get all active regions",
-                "description": "Returns a list of all active regions/countries",
-                "operationId": "getRegions",
+                "summary": "Get rental details",
+                "description": "Returns detailed information about a specific rental transaction",
+                "operationId": "6b9ad001af9d384e98f4ab4eef48a711",
+                "parameters": [
+                    {
+                        "name": "rental",
+                        "in": "path",
+                        "description": "Rental ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "code": {
-                                                "type": "string"
-                                            },
-                                            "is_active": {
-                                                "type": "boolean"
-                                            }
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "type": "object"
-                                    }
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Rental not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Rentals"
+                ],
+                "summary": "Update rental",
+                "description": "Updates an existing rental transaction",
+                "operationId": "d247aaed186c5f39f0317f4da24dbdf1",
+                "parameters": [
+                    {
+                        "name": "rental",
+                        "in": "path",
+                        "description": "Rental ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "customer_name": {
+                                        "type": "string",
+                                        "example": "John Smith"
+                                    },
+                                    "customer_email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "customer_address": {
+                                        "type": "string"
+                                    },
+                                    "notes": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "confirmed",
+                                            "cancelled",
+                                            "completed"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
-                }
-            }
-        },
-        "/api/v1/rental-periods": {
-            "get": {
-                "tags": [
-                    "Reference Data"
-                ],
-                "summary": "Get all active rental periods",
-                "description": "Returns a list of all active rental periods",
-                "operationId": "getRentalPeriods",
+                },
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
+                        "description": "Rental updated successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            },
-                                            "days": {
-                                                "type": "integer"
-                                            },
-                                            "is_active": {
-                                                "type": "boolean"
-                                            }
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        "type": "object"
-                                    }
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rental updated successfully"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Rental not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
                     }
                 }
             }
@@ -418,16 +926,16 @@
     },
     "tags": [
         {
+            "name": "Pricing",
+            "description": "Pricing"
+        },
+        {
             "name": "Products",
             "description": "Products"
         },
         {
-            "name": "Product Pricing",
-            "description": "Product Pricing"
-        },
-        {
-            "name": "Reference Data",
-            "description": "Reference Data"
+            "name": "Rentals",
+            "description": "Rentals"
         }
     ]
 }

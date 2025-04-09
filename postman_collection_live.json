@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Product Rental API",
-    "description": "API for managing product rentals with regional pricing",
+    "name": "Product Rental API (Live)",
+    "description": "API for managing product rentals with regional pricing - Live Version",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "version": "1.0.0"
   },
@@ -329,7 +329,20 @@
               "host": ["{{base_url}}"],
               "path": ["api", "v1", "rentals"]
             },
-            "description": "Get a paginated list of all rental transactions"
+            "description": "Get a list of all rental transactions with optional filtering"
+          },
+          "response": []
+        },
+        {
+          "name": "Get rental details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/v1/rentals/{{rental_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "rentals", "{{rental_id}}"]
+            },
+            "description": "Get detailed information about a specific rental transaction"
           },
           "response": []
         },
@@ -368,19 +381,6 @@
               ]
             },
             "description": "Filter rental transactions by status (confirmed, cancelled, completed)"
-          },
-          "response": []
-        },
-        {
-          "name": "Get rental details",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/api/v1/rentals/{{rental_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["api", "v1", "rentals", "{{rental_id}}"]
-            },
-            "description": "Get detailed information about a specific rental transaction"
           },
           "response": []
         },
@@ -722,7 +722,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:8000",
+      "value": "https://api.yourwisemaker.com",
       "type": "string"
     },
     {

@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\Region;
 use App\Models\RentalPeriod;
 use App\Models\AttributeValue;
-use App\Models\Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
@@ -426,7 +425,7 @@ class ProductController extends Controller
             'sku' => 'required|string|max:50|unique:products,sku',
             'is_active' => 'sometimes|boolean',
             'attribute_values' => 'sometimes|array',
-            'attribute_values.*' => 'sometimes|exists:attribute_values,id'
+            'attribute_values.*' => 'exists:attribute_values,id'
         ]);
         
         // Create the product
@@ -540,7 +539,7 @@ class ProductController extends Controller
      *     path="/api/v1/products/{product}",
      *     tags={"Products"},
      *     summary="Update product",
-     *     description="Updates an existing product with attribute values",
+     *     description="Updates an existing product and its attributes",
      *     @OA\Parameter(
      *         name="product",
      *         in="path",
@@ -551,6 +550,10 @@ class ProductController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="description", type="string"),
+     *             @OA\Property(property="sku", type="string"),
+     *             @OA\Property(property="is_active", type="boolean"),
      *             @OA\Property(property="attribute_values", type="array", @OA\Items(type="integer"))
      *         )
      *     ),
@@ -577,12 +580,22 @@ class ProductController extends Controller
     public function update(Request $request, Product $product): JsonResponse
     {
         $validated = $request->validate([
-            'attribute_values' => 'required|array',
-            'attribute_values.*' => 'exists:attribute_values,id'
+            'name' => 'sometimes|string|max:255',
+            'description' => 'sometimes|string',
+            'sku' => 'sometimes|string|max:50|unique:products,sku,' . $product->id,
+            'is_active' => 'sometimes|boolean',
+            'attribute_values' => 'sometimes|array',
+            'attribute_values.*' => 'exists:attribute_values,id',
         ]);
 
-        // Update attribute values
-        $product->attributeValues()->sync($validated['attribute_values']);
+        // Update the product
+        $product->fill($validated);
+        $product->save();
+
+        // Update attribute values if provided
+        if (isset($validated['attribute_values'])) {
+            $product->attributeValues()->sync($validated['attribute_values']);
+        }
 
         // Load the attribute values relationship
         $product->load('attributeValues.attribute');
